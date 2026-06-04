@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/image/SINDESA_ICON_BLACK_TRANSPARNT.png" alt="SINDESA Logo" width="120" />
+  <img src="public/image/SINDESA_WHITE_TRANSPARNT.png" alt="SINDESA Logo" width="250" />
   <h1>Sinergi Layanan Digital Desa (SINDESA)</h1>
   <p><em>Platform Digitalisasi Pelayanan Administrasi Persuratan Desa Tingkat Lanjut</em></p>
   
@@ -88,28 +88,6 @@ Ikuti panduan berikut untuk menjalankan proyek SINDESA di *localhost* Anda:
    Akses `http://localhost:8000` di *browser* Anda.
 
 ---
-
-## 🚀 Panduan Rilis (Production Ready)
-
-SINDESA dirancang dengan *command* khusus untuk beralih dari fase percobaan (*testing*) ke fase produksi dengan mulus.
-
-**1. Persiapan Bersih-Bersih (Di Komputer Lokal)**
-Jalankan *script* pembersih ini sebelum memindahkan file ke server. Script ini akan menghapus sampah data ujicoba dan **HANYA** menyisakan 1 Akun Admin Asli serta Konfigurasi Surat:
-```bash
-php artisan app:prepare-hosting
-```
-
-**2. Inisialisasi di Server Hosting**
-Setelah kode diunggah ke server dan *database* terhubung, inisialisasi awal (*fresh start*):
-```bash
-php artisan migrate --force
-php artisan db:seed --class=ProductionSeeder
-```
-
-**🔑 Kredensial Admin Default (Production)**
-- **Email**: `admin@desabuttusawe.id`
-- **Password**: `Admin@Sindesa2026`
-> *Sangat disarankan untuk mengubah password segera setelah login pertama!*
 
 ---
 
