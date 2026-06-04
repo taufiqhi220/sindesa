@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{{ asset('image/SINDESA_ICON_BLACK_TRANSPARNT.png') }}">
+    <title>Data Operator - SINDESA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="font-['Poppins'] bg-[#f4f6f9] flex min-h-screen">
+
+    @include('admin.layouts.sidebar')
+
+    <main class="flex-1 p-6 lg:p-10 lg:ml-[280px] overflow-x-hidden min-h-screen">
+
+        <div
+            class="lg:hidden flex justify-between items-center bg-white p-4 rounded-xl shadow-sm mb-8 border border-gray-100">
+            <img src="{{ asset('image/SINDESA_BLACK_TRANSPARNT.png') }}" alt="Logo" class="h-8">
+            <button onclick="toggleSidebar()" class="text-2xl text-[#1a5e35] focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-6">
+            <div>
+                <h2 class="text-2xl md:text-3xl font-bold text-[#1a5e35]">Daftar Operator Desa</h2>
+                <p class="text-gray-500 text-sm mt-1">Kelola hak akses dan data petugas administrasi.</p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+                <a href="{{ route('admin.operator.create') }}"
+                    class="bg-[#1a5e35] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#2e7d32] hover:shadow-lg transition-all flex items-center justify-center gap-2 shadow-sm text-sm whitespace-nowrap">
+                    <i class="fas fa-plus"></i> Tambah Operator
+                </a>
+
+                {{-- FORM FILTER PENGGABUNGAN --}}
+                <form action="{{ route('admin.data-operator') }}" method="GET" class="flex gap-2">
+                    @if(request('sort'))
+                        <input type="hidden" name="sort" value="{{ request('sort') }}">
+                    @endif
+
+                    {{-- Dropdown Per Page --}}
+                    <select name="per_page" onchange="this.form.submit()"
+                        class="py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1a5e35] text-sm bg-white cursor-pointer">
+                        {{-- Set angka 5 sebagai default jika tidak ada parameter --}}
+                        <option value="5" {{ request('per_page', 5) == 5 ? 'selected' : '' }}>5</option>
+                        <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
+                        <option value="20" {{ request('per_page') == 20 ? 'selected' : '' }}>20</option>
+                        <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+                    </select>
+
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari NIP, Nama..."
+                            class="w-full sm:w-48 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1a5e35] focus:ring-2 focus:ring-[#1a5e35]/20 transition-all text-sm">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">Total Operator</p>
+                    <h3 class="text-2xl font-bold text-gray-800">{{ $total }}</h3>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+                <div
+                    class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">Status Aktif</p>
+                    <h3 class="text-2xl font-bold text-gray-800">{{ $aktif }}</h3>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-red-50 text-red-600 flex items-center justify-center text-xl">
+                    <i class="fas fa-user-times"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">Non-Aktif / Diblokir</p>
+                    <h3 class="text-2xl font-bold text-gray-800">{{ $nonaktif }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse whitespace-nowrap">
+                    <thead class="bg-gray-50 border-b-2 border-gray-100">
+                        <tr>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">No</th>
+                            
+                            {{-- HEADER INFO PEGAWAI (BISA DIKLIK) --}}
+                            @php
+                                $sortNama = request('sort') == 'nama_asc' ? 'nama_desc' : 'nama_asc';
+                                $iconNama = request('sort') == 'nama_asc' ? 'fa-sort-alpha-down' : (request('sort') == 'nama_desc' ? 'fa-sort-alpha-up' : 'fa-sort');
+                            @endphp
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider hover:bg-gray-200 transition-colors">
+                                <a href="{{ request()->fullUrlWithQuery(['sort' => $sortNama]) }}" class="flex items-center gap-2">
+                                    Info Pegawai <i class="fas {{ $iconNama }} text-gray-400"></i>
+                                </a>
+                            </th>
+
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Kontak & Email</th>
+
+                            {{-- HEADER STATUS AKUN (BISA DIKLIK) --}}
+                            @php
+                                $sortStatus = request('sort') == 'status_asc' ? 'status_desc' : 'status_asc';
+                                $iconStatus = request('sort') == 'status_asc' ? 'fa-sort-amount-down' : (request('sort') == 'status_desc' ? 'fa-sort-amount-up' : 'fa-sort');
+                            @endphp
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider hover:bg-gray-200 transition-colors">
+                                <a href="{{ request()->fullUrlWithQuery(['sort' => $sortStatus]) }}" class="flex items-center gap-2">
+                                    Status Akun <i class="fas {{ $iconStatus }} text-gray-400"></i>
+                                </a>
+                            </th>
+
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-[0.95rem] text-gray-800">
+                        @forelse($operators as $index => $operator)
+                            <tr
+                                class="hover:bg-gray-50 transition-colors border-b border-gray-50 {{ $operator->status != 'active' ? 'opacity-70' : '' }}">
+                                <td class="px-6 py-4 text-gray-500 font-medium">{{ $operators->firstItem() + $index }}</td>
+
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        @if($operator->foto_profil)
+                                            <img src="{{ asset('storage/' . $operator->foto_profil) }}"
+                                                alt="{{ $operator->name }}"
+                                                class="w-10 h-10 rounded-full object-cover border border-gray-200 shadow-sm">
+                                        @else
+                                            <div
+                                                class="w-10 h-10 rounded-full bg-[#1a5e35]/10 text-[#1a5e35] flex items-center justify-center font-bold text-sm shadow-sm border border-gray-100 shrink-0">
+                                                {{ substr($operator->name, 0, 1) }}
+                                            </div>
+                                        @endif
+
+                                        <div>
+                                            <div class="font-bold text-gray-900">{{ $operator->name }}</div>
+                                            @if(!empty($operator->nip))
+                                                <div class="text-xs text-gray-500 font-mono mt-0.5">NIP: {{ $operator->nip }}
+                                                </div>
+                                            @else
+                                                <div
+                                                    class="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-bold inline-block mt-1 tracking-wide">
+                                                    OPERATOR SINDESA</div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="px-6 py-4">
+                                    <div class="text-sm font-medium text-gray-700">{{ $operator->email }}</div>
+                                    <div class="text-xs text-gray-500 mt-0.5">
+                                        <i class="fas fa-phone-alt mr-1"></i>{{ $operator->phone ?? 'Tidak Ada Nomor' }}
+                                    </div>
+                                </td>
+
+                                <td class="px-6 py-4">
+                                    @if($operator->status == 'active')
+                                        <span
+                                            class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold border border-emerald-200">Aktif</span>
+                                    @elseif($operator->status == 'suspended')
+                                        <span
+                                            class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-xs font-bold border border-gray-300">Diblokir</span>
+                                    @else
+                                        <span
+                                            class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-xs font-bold border border-red-200">Non
+                                            Aktif</span>
+                                    @endif
+                                </td>
+
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <a href="{{ route('admin.operator.edit', $operator->id) }}"
+                                            class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors shadow-sm"
+                                            title="Edit Data">
+                                            <i class="fas fa-pen text-xs"></i>
+                                        </a>
+
+                                        <form action="{{ route('admin.operator.destroy', $operator->id) }}" method="POST"
+                                            id="delete-form-{{ $operator->id }}" class="m-0 p-0">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button"
+                                                onclick="confirmDelete('{{ $operator->id }}', '{{ addslashes($operator->name) }}')"
+                                                class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors shadow-sm"
+                                                title="Hapus Permanen">
+                                                <i class="fas fa-trash text-xs"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-6 py-10 text-center text-gray-500">
+                                    <i class="fas fa-user-shield text-3xl mb-3 block text-gray-300"></i>
+                                    Belum ada data operator yang terdaftar.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            {{-- PAGINATION CUSTOM --}}
+            @if ($operators->hasPages())
+                <div class="px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p class="text-sm text-gray-500">
+                        Menampilkan <span class="font-bold text-[#1a5e35]">{{ $operators->firstItem() }}</span> hingga <span class="font-bold text-[#1a5e35]">{{ $operators->lastItem() }}</span> dari <span class="font-bold text-[#1a5e35]">{{ $operators->total() }}</span> data
+                    </p>
+                    
+                    <div class="flex items-center gap-1.5">
+                        {{-- Tombol Sebelumnya --}}
+                        @if ($operators->onFirstPage())
+                            <span class="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-100 text-gray-400 cursor-not-allowed"><i class="fas fa-chevron-left text-xs"></i></span>
+                        @else
+                            <a href="{{ $operators->previousPageUrl() }}" class="w-9 h-9 flex items-center justify-center rounded-lg bg-white border border-gray-200 text-[#1a5e35] hover:bg-[#1a5e35] hover:text-white transition-colors shadow-sm"><i class="fas fa-chevron-left text-xs"></i></a>
+                        @endif
+
+                        {{-- Nomor Halaman --}}
+                        @foreach ($operators->links()->elements as $element)
+                            @if (is_string($element))
+                                <span class="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-100 text-gray-500">{{ $element }}</span>
+                            @endif
+                            
+                            @if (is_array($element))
+                                @foreach ($element as $page => $url)
+                                    @if ($page == $operators->currentPage())
+                                        <span class="w-9 h-9 flex items-center justify-center rounded-lg bg-[#1a5e35] text-white font-bold shadow-md">{{ $page }}</span>
+                                    @else
+                                        <a href="{{ $url }}" class="w-9 h-9 flex items-center justify-center rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-[#cfa03f] hover:text-white hover:border-[#cfa03f] transition-colors shadow-sm">{{ $page }}</a>
+                                    @endif
+                                @endforeach
+                            @endif
+                        @endforeach
+
+                        {{-- Tombol Selanjutnya --}}
+                        @if ($operators->hasMorePages())
+                            <a href="{{ $operators->nextPageUrl() }}" class="w-9 h-9 flex items-center justify-center rounded-lg bg-white border border-gray-200 text-[#1a5e35] hover:bg-[#1a5e35] hover:text-white transition-colors shadow-sm"><i class="fas fa-chevron-right text-xs"></i></a>
+                        @else
+                            <span class="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-100 text-gray-400 cursor-not-allowed"><i class="fas fa-chevron-right text-xs"></i></span>
+                        @endif
+                    </div>
+                </div>
+            @endif
+        </div>
+
+    </main>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        function confirmDelete(id, name) {
+            Swal.fire({
+                title: 'Hapus Data Operator?',
+                html: `Anda yakin ingin menghapus data <b>${name}</b>?<br>Tindakan ini tidak dapat dibatalkan.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#6e7881',
+                confirmButtonText: '<i class="fas fa-trash-alt mr-1"></i> Ya, Hapus!',
+                cancelButtonText: 'Batal',
+                customClass: { popup: 'rounded-2xl' }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @include('partials.sweetalert')
+</body>
+
+</html>
