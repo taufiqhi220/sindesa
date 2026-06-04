@@ -1,6 +1,6 @@
 <div align="center">
   <img src="public/image/SINDESA_ICON_BLACK_TRANSPARNT.png" alt="SINDESA Logo" width="120" />
-  <h1>Sistem Informasi Desa (SINDESA)</h1>
+  <h1>Sinergi Layanan Digital Desa (SINDESA)</h1>
   <p><em>Platform Digitalisasi Pelayanan Administrasi Persuratan Desa Tingkat Lanjut</em></p>
   
   [![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
@@ -117,4 +117,4 @@ php artisan db:seed --class=ProductionSeeder
 Aplikasi ini dikembangkan untuk memajukan transformasi digital administrasi Desa. Kontribusi berupa laporan *bug*, perbaikan, maupun fitur baru sangat disambut melalui fitur *Pull Request*.
 
 ## 📄 Lisensi
-Sistem Informasi Desa (SINDESA) ini dilindungi oleh hak cipta. © 2026 Pemerintah Desa Buttu Sawe. Hak Cipta Dilindungi Undang-Undang.
+Sinergi Layanan Digital Desa (SINDESA) ini dilindungi oleh hak cipta. © 2026 Pemerintah Desa Buttu Sawe. Hak Cipta Dilindungi Undang-Undang.

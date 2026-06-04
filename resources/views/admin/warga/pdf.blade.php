@@ -84,7 +84,7 @@
 
     <div class="header">
         <h1>REKAPITULASI DATA WARGA</h1>
-        <p>Sistem Informasi Desa (SINDESA) - Desa Buttu Sawe</p>
+        <p>Sinergi Layanan Digital Desa (SINDESA) - Desa Buttu Sawe</p>
         <p><small>Dicetak pada: {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('l, d F Y H:i') }}</small></p>
     </div>
 

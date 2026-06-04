@@ -19,7 +19,7 @@
         <div class="bg-gradient-to-b from-[#11442b] to-[#1a5e35] p-6 text-center">
             <!-- Sesuaikan path logo dengan yang ada di project kamu -->
             <img src="{{ asset('image/SINDESA_WHITE_TRANSPARNT.png') }}" alt="SINDESA" class="h-10 mx-auto mb-2">
-            <h1 class="text-white font-bold text-lg">Sistem Informasi Desa</h1>
+            <h1 class="text-white font-bold text-lg">Sinergi Layanan Digital Desa</h1>
             <p class="text-white/80 text-xs">Pemerintah Desa Buttu Sawe</p>
         </div>
 
