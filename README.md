@@ -1,5 +1,9 @@
 <div align="center">
-  <img src="public/image/SINDESA_WHITE_TRANSPARNT.png" alt="SINDESA Logo" width="250" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="public/image/SINDESA_WHITE_TRANSPARNT.png" />
+    <source media="(prefers-color-scheme: light)" srcset="public/image/SINDESA_BLACK_TRANSPARNT.png" />
+    <img src="public/image/SINDESA_WHITE_TRANSPARNT.png" alt="SINDESA Logo" width="250" />
+  </picture>
   <h1>Sinergi Layanan Digital Desa (SINDESA)</h1>
   <p><em>Platform Digitalisasi Pelayanan Administrasi Persuratan Desa Tingkat Lanjut</em></p>
   
