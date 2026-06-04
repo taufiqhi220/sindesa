@@ -35,6 +35,22 @@ Sistem ini tidak hanya memfasilitasi pengajuan surat, tetapi juga dilengkapi **k
 
 ---
 
+## 🏛️ Keselarasan dengan Domain COBIT 2019
+
+Untuk memastikan bahwa pengembangan sistem SINDESA memenuhi standar tata kelola teknologi informasi yang terukur, berikut adalah matriks pemetaan antara praktik inti dalam domain COBIT 2019 (APO dan BAI) dengan fitur serta aktivitas teknis yang telah diimplementasikan dalam sistem:
+
+| Domain & Proses COBIT | Aktivitas/Praktik Standar | Bukti Implementasi Riil pada Sistem SINDESA |
+| --- | --- | --- |
+| **APO01** *(Manage the IT Management Framework)* | Menetapkan struktur dan kerangka kerja pengelolaan TI. | **Penggunaan Framework Terstandar & RAD**: Sistem dibangun menggunakan *framework* Laravel 13 (Arsitektur MVC) dan **Filament PHP** untuk memastikan kode terstruktur dan *maintainable*. |
+| **APO02** *(Manage Strategy)* | Menyelaraskan strategi TI dengan kebutuhan organisasi. | **Digitalisasi Layanan Desa**: Fitur pengajuan surat online selaras dengan tujuan SPBE untuk efisiensi layanan publik di Desa Buttu Sawe. |
+| **APO03** *(Manage Enterprise Architecture)* | Menyediakan arsitektur data dan aplikasi yang terintegrasi. | **Arsitektur Terintegrasi & Master Data Dinamis**: Implementasi basis data relasional (ERD) terpusat dengan Manajemen KOP Surat dan Jenis Surat yang *customizable*. |
+| **APO12** *(Manage Risk)* | Mengidentifikasi dan memitigasi risiko keamanan dan sistem. | **Fitur Keamanan & Validasi Tingkat Lanjut**: Proteksi rute via *Middleware*, pemisahan hak akses (Spatie), serta pengamanan dokumen menggunakan **Tanda Tangan Elektronik (TTE)** dan **QR Code**. |
+| **BAI02** *(Manage Requirements Definition)* | Mendefinisikan kebutuhan fungsional berdasarkan masukan pengguna. | **Analisis Kebutuhan Terpenuhi**: Perumusan fitur kompleks (Registrasi mandiri, Pelacakan Riwayat) murni mengacu pada SOP manual pelayanan desa. |
+| **BAI03** *(Manage Solutions Identification and Build)* | Membangun solusi sesuai spesifikasi kebutuhan. | **Realisasi Desain Teknis**: Pembangunan fitur *auto-generate* dokumen PDF secara presisi menggunakan `dompdf` dan *dashboard* analitik pelaporan. |
+| **BAI07** *(Manage Change Acceptance and Transitioning)* | Memastikan solusi diterima oleh pengguna (*User Acceptance*). | **Pengujian UAT & Interaktivitas UI**: Sistem responsif (*Mobile-Friendly*) yang dilengkapi *SweetAlert/Toast* sehingga siap diuji melalui skenario lintas peran. |
+
+---
+
 ## 🛠️ Stack Teknologi
 
 - **Backend Architecture**: Laravel 13 (PHP 8.3+)
@@ -88,8 +104,6 @@ Ikuti panduan berikut untuk menjalankan proyek SINDESA di *localhost* Anda:
    php artisan serve
    ```
    Akses `http://localhost:8000` di *browser* Anda.
-
----
 
 ---
 
