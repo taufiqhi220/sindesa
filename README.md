@@ -17,7 +17,7 @@
 ## 🌟 Mengapa Memilih SINDESA?
 
 Sistem ini tidak hanya memfasilitasi pengajuan surat, tetapi juga dilengkapi **keamanan modern** dan **alur birokrasi yang cerdas**:
-- 🏛️ **Enterprise IT Governance**: Dirancang dengan mematuhi kerangka kerja tata kelola TI **COBIT 2019** (Domain *BAI, DSS, dan MEA*) untuk menjamin pemisahan wewenang (*Segregation of Duties*), integritas proses bisnis, dan keamanan informasi skala pemerintahan.
+- 🏛️ **Enterprise IT Governance**: Dirancang dengan mematuhi kerangka kerja tata kelola TI **COBIT 2019** (Fokus pada Domain *APO* dan *BAI*) untuk memastikan keselarasan arsitektur Enterprise, manajemen risiko, dan pembangunan solusi sistem administrasi negara.
 - 🚀 **Zero Paperwork**: Pengajuan dari genggaman ponsel warga, langsung diterima oleh perangkat desa.
 - 🔐 **Keamanan Kriptografi**: Dilengkapi algoritma *Tanda Tangan Elektronik (TTE)* untuk mencegah pemalsuan tanda tangan.
 - 📱 **User Experience Prima**: Antarmuka *mobile-first* yang mulus dan interaktif dengan *Micro-animations*.
