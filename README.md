@@ -7,6 +7,7 @@
   [![PHP](https://img.shields.io/badge/PHP-8.3+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
   [![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
   [![TailwindCSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+  [![COBIT 2019](https://img.shields.io/badge/Governance-COBIT_2019-005b9f?style=for-the-badge)](https://www.isaca.org/)
 </div>
 
 ---
@@ -16,6 +17,7 @@
 ## 🌟 Mengapa Memilih SINDESA?
 
 Sistem ini tidak hanya memfasilitasi pengajuan surat, tetapi juga dilengkapi **keamanan modern** dan **alur birokrasi yang cerdas**:
+- 🏛️ **Enterprise IT Governance**: Dirancang dengan mematuhi kerangka kerja tata kelola TI **COBIT 2019** (Domain *BAI, DSS, dan MEA*) untuk menjamin pemisahan wewenang (*Segregation of Duties*), integritas proses bisnis, dan keamanan informasi skala pemerintahan.
 - 🚀 **Zero Paperwork**: Pengajuan dari genggaman ponsel warga, langsung diterima oleh perangkat desa.
 - 🔐 **Keamanan Kriptografi**: Dilengkapi algoritma *Tanda Tangan Elektronik (TTE)* untuk mencegah pemalsuan tanda tangan.
 - 📱 **User Experience Prima**: Antarmuka *mobile-first* yang mulus dan interaktif dengan *Micro-animations*.
