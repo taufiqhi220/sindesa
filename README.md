@@ -3,8 +3,8 @@
   <h1>Sinergi Layanan Digital Desa (SINDESA)</h1>
   <p><em>Platform Digitalisasi Pelayanan Administrasi Persuratan Desa Tingkat Lanjut</em></p>
   
-  [![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
-  [![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+  [![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+  [![PHP](https://img.shields.io/badge/PHP-8.3+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
   [![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
   [![TailwindCSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 </div>
@@ -35,7 +35,7 @@ Sistem ini tidak hanya memfasilitasi pengajuan surat, tetapi juga dilengkapi **k
 
 ## 🛠️ Stack Teknologi
 
-- **Backend Architecture**: Laravel 11 (PHP 8.2+)
+- **Backend Architecture**: Laravel 13 (PHP 8.3+)
 - **Database Engine**: MySQL / MariaDB 
 - **Frontend Layer**: Vanilla CSS, Tailwind CSS, Vanilla JS
 - **UI Components**: [SweetAlert2](https://sweetalert2.github.io/), FontAwesome 6
