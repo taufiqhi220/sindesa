@@ -1,59 +1,114 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏡 SINDESA (Sistem Informasi Desa)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**SINDESA** adalah aplikasi berbasis web modern yang dirancang khusus untuk mempermudah digitalisasi pelayanan administrasi persuratan di tingkat Pemerintahan Desa. 
 
-## About Laravel
+Sistem ini menjembatani kebutuhan administrasi Warga dengan perangkat desa (Operator & Kepala Desa) secara cepat, transparan, dan dapat dilacak, serta dilengkapi dengan fitur keamanan **Tanda Tangan Elektronik (TTE)** dan **Validasi Dokumen via QR Code**.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Fitur Unggulan
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- 👥 **Multi-Role Access**: Sistem memisahkan hak akses antara **Admin**, **Kepala Desa**, **Operator**, dan **Warga** demi menjaga integritas data dan privasi.
+- 📄 **15 Jenis Surat Dinamis**: Mendukung berbagai jenis surat keterangan (Akta Lahir, KTP, KK, Kematian, Pindah, Usaha, SKCK, SKTM, dll) yang dapat diaktifkan/dinonaktifkan oleh Admin.
+- ✍️ **Tanda Tangan Elektronik (TTE)**: Dokumen final (*PDF*) ditandatangani secara digital oleh Kepala Desa dengan dukungan stempel basah elektronik.
+- 🔍 **Validasi Dokumen (QR Code)**: Setiap surat memiliki QR Code unik yang terhubung ke halaman *Dokumen Valid* guna mencegah pemalsuan administrasi.
+- 📊 **Dashboard & Laporan**: Statistik pengajuan surat masuk, diproses, selesai, dan ditolak. Dilengkapi kemampuan cetak laporan bulanan (*PDF/Excel*).
+- 🖨️ **Master KOP Surat**: KOP Surat dapat disesuaikan langsung dari panel Admin, termasuk logo desa, alamat, dan nomor telepon.
+- 📱 **Mobile Responsive**: Tampilan dirancang khusus agar ramah diakses melalui layar sentuh *smartphone* masyarakat desa.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🛠️ Teknologi yang Digunakan
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Framework PHP**: [Laravel](https://laravel.com/) (versi terbaru)
+- **Database**: MySQL / MariaDB
+- **Frontend**: HTML5, Vanilla CSS / Tailwind CSS, JavaScript, [SweetAlert2](https://sweetalert2.github.io/)
+- **PDF Generator**: [barryvdh/laravel-dompdf](https://github.com/barryvdh/laravel-dompdf)
+- **Data Wilayah**: [laravolt/indonesia](https://github.com/laravolt/indonesia) (Database Regional)
+- **Assets Bundler**: Vite
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 💻 Panduan Instalasi Lokal (Development)
 
-### Premium Partners
+Untuk menjalankan SINDESA di komputer lokal (Laptop/PC), pastikan Anda telah menginstal **PHP (min. 8.2)**, **Composer**, **Node.js**, dan Server Database (seperti **XAMPP / Laragon**).
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+1. **Clone Repository**
+   ```bash
+   git clone https://github.com/USERNAME-GITHUB-ANDA/sindesa-web.git
+   cd sindesa-web
+   ```
 
-## Contributing
+2. **Install Dependencies**
+   ```bash
+   composer install
+   npm install
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. **Konfigurasi Environment (.env)**
+   Copy file `.env.example` menjadi `.env`.
+   ```bash
+   cp .env.example .env
+   ```
+   Buka file `.env` dan sesuaikan koneksi database lokal Anda:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=sindesa_local
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
-## Code of Conduct
+4. **Generate Application Key & Build Assets**
+   ```bash
+   php artisan key:generate
+   npm run build
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5. **Migrasi Database & Seeding (Penting!)**
+   Jalankan perintah ini untuk membangun tabel database dan mengisinya dengan data uji coba (Dummy).
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
+   *(Perintah ini akan mencetak akun Admin, Kades, Operator, dan Warga khusus untuk keperluan testing)*.
 
-## Security Vulnerabilities
+6. **Tautkan Storage & Jalankan Server**
+   ```bash
+   php artisan storage:link
+   php artisan serve
+   ```
+   Buka browser dan akses: `http://localhost:8000`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 🚀 Panduan Persiapan Hosting (Production)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Saat SINDESA siap diluncurkan ke server (cPanel/VPS), Anda tidak perlu menggunakan akun *dummy*. Sistem ini sudah dibekali *script* otomatis untuk membersihkan sampah *testing* dan menyiapkan *database* murni.
+
+Di komputer lokal Anda, sebelum di-ZIP dan di-*upload* ke hosting, jalankan:
+```bash
+php artisan app:prepare-hosting
+```
+*Script ini akan:*
+1. Menghapus semua file sampah/unggah KTP uji coba.
+2. Membersihkan riwayat transaksi & log uji coba.
+3. Menghapus seluruh akun *Kades*, *Operator*, dan *Warga* uji coba.
+4. **Hanya menyisakan 1 Akun Admin Asli**, Konfigurasi Jenis Surat, Konfigurasi Kop Surat, dan Data Wilayah Indonesia.
+
+Setelah di-Hosting dan *Database* tersambung, jalankan perintah ini di terminal server Anda untuk menginisialisasi sistem *Production*:
+```bash
+php artisan migrate --force
+php artisan db:seed --class=ProductionSeeder
+```
+
+**Informasi Login Admin (Production):**
+- Email: `admin@desabuttusawe.id`
+- Password: `Admin@Sindesa2026`
+*(Wajib diganti setelah berhasil masuk)*
+
+---
+
+## 📄 Lisensi & Hak Cipta
+Dikembangkan secara khusus untuk digitalisasi pelayanan administrasi desa.
+© 2026 Hak Cipta Dilindungi.
