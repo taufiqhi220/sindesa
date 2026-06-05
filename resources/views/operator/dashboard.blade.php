@@ -193,13 +193,13 @@
                 </div>
             </a>
 
-            <div class="stat-card" style="border-left-color: #8b5cf6;">
+            <a href="{{ route('operator.bantuan') }}" class="stat-card" style="border-left-color: #8b5cf6;">
                 <div class="icon-box bg-[#8b5cf61a] text-[#8b5cf6]"><i class="fas fa-question-circle"></i></div>
                 <div class="text-right leading-tight">
                     <h3 class="text-2xl font-bold text-gray-800">Help</h3>
                     <p class="text-[11px] text-gray-400 font-medium mt-1">Pusat Bantuan</p>
                 </div>
-            </div>
+            </a>
 
         </div>
 

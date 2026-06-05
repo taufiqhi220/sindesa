@@ -762,4 +762,10 @@ class DashboardController extends Controller
 
         return view('admin.log-aktivitas', compact('logs'));
     }
+
+    // Pusat Bantuan Admin
+    public function pusatBantuan()
+    {
+        return view('admin.pusat-bantuan');
+    }
 }

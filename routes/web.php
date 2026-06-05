@@ -46,13 +46,13 @@ Route::get('/verifikasi/surat/{token}', [PublicController::class, 'verifikasiSur
 Route::middleware('guest')->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::get('/login', 'showLoginForm')->name('login');
-        Route::post('/login', 'login')->middleware('throttle:5,1'); // Max 5 percobaan login per menit
+        Route::post('/login', 'login')->middleware('throttle:15,1'); // Max 15 percobaan login per menit
         Route::get('/register', 'showRegistrationForm')->name('register');
-        Route::post('/register', 'register')->middleware('throttle:3,1'); // Max 3 pendaftaran per menit
+        Route::post('/register', 'register')->middleware('throttle:15,1'); // Max 15 pendaftaran per menit
         Route::get('/forgot-password', [PasswordResetController::class, 'requestForm'])->name('password.request');
-        Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLink'])->middleware('throttle:3,1')->name('password.email');
+        Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLink'])->middleware('throttle:10,1')->name('password.email');
         Route::get('/reset-password/{token}', [PasswordResetController::class, 'resetForm'])->name('password.reset');
-        Route::post('/reset-password', [PasswordResetController::class, 'updatePassword'])->middleware('throttle:3,1')->name('password.update');
+        Route::post('/reset-password', [PasswordResetController::class, 'updatePassword'])->middleware('throttle:10,1')->name('password.update');
     });
 });
 
@@ -192,6 +192,9 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         Route::controller(WargaSuratController::class)->group(function () {
             Route::get('/surat/{id}/cetak', 'cetakPdf')->name('surat.cetak');
         });
+
+        // Pusat Bantuan Warga
+        Route::get('/bantuan', [WargaDashboard::class, 'bantuan'])->name('bantuan');
     });
 
     // ------------------------------------------
@@ -224,6 +227,9 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::patch('/verifikasi/update/{id}', 'update')->name('verifikasi.update');
             Route::patch('/verifikasi/tarik/{id}', 'tarik')->name('verifikasi.tarik');
         });
+
+        // Pusat Bantuan Operator
+        Route::get('/bantuan', [OperatorDashboard::class, 'bantuan'])->name('bantuan');
     });
 
     // ------------------------------------------
@@ -244,6 +250,9 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         Route::patch('/pengaturan/update-profil', 'updateProfil')->name('pengaturan.update-profil');
         Route::patch('/pengaturan/update-ttd', 'updateTtd')->name('pengaturan.update-ttd');
         Route::patch('/pengaturan/update-password', 'updatePassword')->name('pengaturan.update-password');
+
+        // Pusat Bantuan Kades
+        Route::get('/bantuan', 'bantuan')->name('bantuan');
     });
 
     // ------------------------------------------

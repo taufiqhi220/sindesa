@@ -59,8 +59,8 @@
                 <i class="fas fa-history w-5 text-center"></i> Riwayat Surat
             </a>
 
-            <a href="#"
-                class="flex items-center gap-3 p-3 rounded-lg transition-all mb-2 text-white/80 hover:bg-[#cfa03f] hover:text-white">
+            <a href="{{ route('kades.bantuan') }}"
+                class="flex items-center gap-3 p-3 rounded-lg transition-all mb-2 {{ request()->routeIs('kades.bantuan') ? 'bg-[#cfa03f] text-white shadow-md font-medium' : 'text-white/80 hover:bg-[#cfa03f] hover:text-white' }}">
                 <i class="fas fa-question-circle w-5 text-center"></i> Bantuan
             </a>
 

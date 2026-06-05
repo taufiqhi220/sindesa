@@ -89,7 +89,7 @@
                 </div>
             </a>
 
-            <a href="#" class="bg-white p-6 rounded-2xl shadow-sm border-l-[6px] border-[#cfa03f] hover:-translate-y-1 transition-transform flex items-center justify-between">
+            <a href="{{ route('warga.bantuan') }}" class="bg-white p-6 rounded-2xl shadow-sm border-l-[6px] border-[#cfa03f] hover:-translate-y-1 transition-transform flex items-center justify-between">
                 <div class="w-14 h-14 bg-[#cfa03f]/10 text-[#cfa03f] rounded-xl flex items-center justify-center text-2xl">
                     <i class="fas fa-question-circle"></i>
                 </div>

@@ -110,4 +110,10 @@ class DashboardController extends Controller
 
     public function pengaturanSurat() { return view('operator.pengaturan-surat'); }
     public function pengaturanAkun() { return view('operator.pengaturan-akun'); }
+
+    // Pusat Bantuan Operator
+    public function bantuan()
+    {
+        return view('operator.bantuan');
+    }
 }

@@ -279,4 +279,11 @@ class DashboardController extends Controller
 
         return $pdf->stream('Laporan_Surat_Bulan_' . $bulan . '.pdf');
     }
+
+    // Pusat Bantuan Kades
+    public function bantuan()
+    {
+        $countPerluTtd = PengajuanSurat::where('status', 'diproses_kades')->count();
+        return view('kades.bantuan', compact('countPerluTtd'));
+    }
 }

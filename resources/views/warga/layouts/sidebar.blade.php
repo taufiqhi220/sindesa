@@ -191,8 +191,8 @@
             <i class="fas fa-user-cog w-5 text-center"></i> Profil & Akun
         </a>
 
-        <a href="#"
-            class="flex items-center gap-3 p-3 text-white/80 hover:bg-[#cfa03f] hover:text-white rounded-lg transition-all">
+        <a href="{{ route('warga.bantuan') }}"
+            class="flex items-center gap-3 p-3 rounded-lg transition-all {{ request()->routeIs('warga.bantuan') ? 'bg-[#cfa03f] text-white font-medium shadow-md' : 'text-white/80 hover:bg-[#cfa03f] hover:text-white' }}">
             <i class="fas fa-book w-5 text-center"></i> Panduan Penggunaan
         </a>
 

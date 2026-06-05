@@ -2307,4 +2307,10 @@ class DashboardController extends Controller
         return redirect()->route('warga.riwayat')->with('success', 'Pengajuan Keterangan Penghasilan berhasil diperbarui.');
     }
 
+    // Pusat Bantuan Warga
+    public function bantuan()
+    {
+        return view('warga.bantuan');
+    }
+
 }
