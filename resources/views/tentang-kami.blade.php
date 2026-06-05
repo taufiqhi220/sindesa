@@ -149,17 +149,27 @@
         <div class="flex-1 min-w-[300px]">
             <h3 class="text-xl mb-6 text-[#cfa03f] border-b-2 border-[#cfa03f] inline-block pb-1 font-semibold">Hubungi
                 Kami</h3>
-            <div class="flex items-center mb-4">
-                <i class="fas fa-map-marker-alt text-[#cfa03f] w-8 text-xl text-center mr-4"></i>
-                <p>Kantor Desa Buttu Sawe, Kec. Duampanua, Kab. Pinrang</p>
+            <div class="flex items-start mb-4">
+                <i class="fas fa-map-marker-alt text-[#cfa03f] w-8 text-xl text-center mr-4 mt-1"></i>
+                <p>Jl. Poros Bungi-Rajang, Battusawe, Kec. Duampanua, Kabupaten Pinrang, Sulawesi Selatan</p>
             </div>
             <div class="flex items-center mb-4">
                 <i class="fas fa-envelope text-[#cfa03f] w-8 text-xl text-center mr-4"></i>
-                <p>email: layanan@desabuttusawe.id</p>
+                <p>email: sindesa.buttusawe@gmail.com</p>
             </div>
             <div class="flex items-center mb-4">
                 <i class="fab fa-whatsapp text-[#cfa03f] w-8 text-xl text-center mr-4"></i>
-                <p>WA: 0812-3456-7890</p>
+                <p>WA: -</p>
+            </div>
+        </div>
+        <div class="flex-1 min-w-[300px]">
+            <h3 class="text-xl mb-6 text-[#cfa03f] border-b-2 border-[#cfa03f] inline-block pb-1 font-semibold">Lokasi
+                Kami</h3>
+            <div class="rounded-xl overflow-hidden shadow-lg border-2 border-white/10 bg-white/5">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.0911448253682!2d119.54731177570577!3d-3.566494642371504!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d945d6e318aa5a1%3A0xeb2eeba9b59e69c9!2sKANTOR%20DESA%20BUTTUSAWE!5e0!3m2!1sid!2sid!4v1780627282660!5m2!1sid!2sid"
+                    width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </footer>
