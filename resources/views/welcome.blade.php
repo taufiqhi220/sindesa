@@ -116,7 +116,7 @@
                 Kami</h3>
             <div class="flex items-start mb-4">
                 <i class="fas fa-map-marker-alt text-[#cfa03f] w-8 text-xl text-center mr-4 mt-1"></i>
-                <p>Jl. Poros Bungi-Rajang, Battusawe, Kec. Duampanua, Kabupaten Pinrang, Sulawesi Selatan</p>
+                <p>Jl. Poros Bungi-Rajang, Buttu Sawe, Kec. Duampanua, Kabupaten Pinrang, Sulawesi Selatan</p>
             </div>
             <div class="flex items-center mb-4">
                 <i class="fas fa-envelope text-[#cfa03f] w-8 text-xl text-center mr-4"></i>
