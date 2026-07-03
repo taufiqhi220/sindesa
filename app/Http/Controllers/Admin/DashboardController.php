@@ -644,7 +644,7 @@ class DashboardController extends Controller
             'name'         => 'required|string|max:255',
             'email'        => 'required|email|max:255|unique:users,email,' . $user->id,
             'foto_profil'  => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'password'     => 'nullable|min:8|confirmed',
+            'password'     => 'nullable|min:8',
         ]);
 
         $user->name = $request->name;
