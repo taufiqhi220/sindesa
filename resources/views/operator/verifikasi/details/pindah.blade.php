@@ -314,6 +314,9 @@
                             $p_ket = $dataTambahan['pengikut_ket'] ?? array_column($oldAnggota, 'keterangan');
                             
                             $countPengikut = is_array($p_nama) ? count($p_nama) : 0;
+                            
+                            // Fallback: teks bebas yang diisi user (misal: "Budi, Siti")
+                            $anggotaTeks = $dataTambahan['anggota_keluarga_teks'] ?? '';
                         @endphp
 
                         @if($countPengikut > 0)
@@ -335,15 +338,25 @@
                                             <tr class="hover:bg-gray-50 transition-colors">
                                                 <td class="px-4 py-3 font-semibold text-gray-500 text-center">{{ $i + 1 }}</td>
                                                 <td class="px-4 py-3 font-bold text-gray-800">{{ $p_nama[$i] ?? '-' }}</td>
-                                                <td class="px-4 py-3 text-gray-600 font-mono text-xs">{{ $p_nik[$i] ?? '-' }}</td>
-                                                <td class="px-4 py-3 text-gray-600 font-bold">{{ substr($p_jk[$i] ?? '-', 0, 1) }}</td>
+                                                <td class="px-4 py-3 text-gray-600 font-mono text-xs">{{ ($p_nik[$i] ?? '') ?: '-' }}</td>
+                                                <td class="px-4 py-3 text-gray-600 font-bold">{{ ($p_jk[$i] ?? '') ? substr($p_jk[$i], 0, 1) : '-' }}</td>
                                                 <td class="px-4 py-3 text-gray-600">{{ !empty($p_tgl[$i]) ? \Carbon\Carbon::parse($p_tgl[$i])->format('d/m/Y') : '-' }}</td>
-                                                <td class="px-4 py-3 text-gray-600">{{ $p_status[$i] ?? '-' }}</td>
-                                                <td class="px-4 py-3 text-gray-600"><span class="bg-gray-100 px-2 py-1 rounded-md text-xs font-semibold">{{ $p_ket[$i] ?? '-' }}</span></td>
+                                                <td class="px-4 py-3 text-gray-600">{{ ($p_status[$i] ?? '') ?: '-' }}</td>
+                                                <td class="px-4 py-3 text-gray-600"><span class="bg-gray-100 px-2 py-1 rounded-md text-xs font-semibold">{{ ($p_ket[$i] ?? '') ?: '-' }}</span></td>
                                             </tr>
                                         @endfor
                                     </tbody>
                                 </table>
+                            </div>
+                            {{-- Tampilkan teks asli jika ada --}}
+                            @if(!empty($anggotaTeks))
+                                <p class="text-xs text-gray-400 mt-2 italic">Catatan asli dari pemohon: "{{ $anggotaTeks }}"</p>
+                            @endif
+                        @elseif(!empty($anggotaTeks))
+                            {{-- Fallback: user mengisi teks bebas tanpa format per-anggota --}}
+                            <div class="px-4 py-4 bg-amber-50 border border-amber-200 rounded-xl">
+                                <p class="text-xs font-bold text-amber-700 mb-1"><i class="fas fa-users mr-1"></i> Keterangan Anggota Ikut Pindah:</p>
+                                <p class="text-sm text-gray-800 font-semibold whitespace-pre-line">{{ $anggotaTeks }}</p>
                             </div>
                         @else
                             <div class="px-4 py-6 bg-gray-50 border border-dashed border-gray-300 rounded-xl text-center">

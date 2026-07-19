@@ -185,7 +185,7 @@
                         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Status
                             Perkawinan</label>
                         <div class="px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-gray-800 font-semibold">
-                            {{ $dataTambahan['status_kawin_almarhum'] ?? '-' }}
+                            {{ $dataTambahan['status_kawin_almarhum'] ?? $dataTambahan['status_perkawinan_almarhum'] ?? '-' }}
                         </div>
                     </div>
                     <div class="md:col-span-3">

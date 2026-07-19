@@ -291,10 +291,11 @@
                                 class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Dokumen
                                 Pendukung Lain (Opsional)</label>
                             <span
-                                class="text-sm text-gray-800 font-medium">{{ !empty($dataTambahan['file_pendukung']) ? 'Berkas Tersedia' : 'Berkas Tidak Dilampirkan' }}</span>
+                                class="text-sm text-gray-800 font-medium">{{ !empty($dataTambahan['file_pendukung']) || !empty($dataTambahan['file_lain']) ? 'Berkas Tersedia' : 'Berkas Tidak Dilampirkan' }}</span>
                         </div>
-                        @if(!empty($dataTambahan['file_pendukung']))
-                            <a href="{{ asset('storage/' . $dataTambahan['file_pendukung']) }}" target="_blank"
+                        @php $file_pendukung = $dataTambahan['file_pendukung'] ?? $dataTambahan['file_lain'] ?? null; @endphp
+                        @if(!empty($file_pendukung))
+                            <a href="{{ asset('storage/' . $file_pendukung) }}" target="_blank"
                                 class="inline-flex justify-center items-center gap-2 px-6 py-2.5 bg-white border border-[#1a5e35] text-[#1a5e35] rounded-full font-semibold text-sm hover:bg-[#1a5e35] hover:text-white transition-all shadow-sm">
                                 <i class="fas fa-cloud-download-alt"></i> Lihat File
                             </a>

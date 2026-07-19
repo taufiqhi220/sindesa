@@ -272,10 +272,10 @@
                             <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Akta
                                 Cerai / Surat Kematian</label>
                             <span
-                                class="text-sm text-gray-800 font-medium">{{ !empty($dataTambahan['file_cerai']) ? 'Berkas Tersedia' : 'Berkas Tidak Ditemukan' }}</span>
+                                class="text-sm text-gray-800 font-medium">{{ !empty($dataTambahan['file_bukti']) ? 'Berkas Tersedia' : 'Berkas Tidak Ditemukan' }}</span>
                         </div>
-                        @if(!empty($dataTambahan['file_cerai']))
-                            <a href="{{ asset('storage/' . $dataTambahan['file_cerai']) }}" target="_blank"
+                        @if(!empty($dataTambahan['file_bukti']))
+                            <a href="{{ asset('storage/' . $dataTambahan['file_bukti']) }}" target="_blank"
                                 class="inline-flex justify-center items-center gap-2 px-6 py-2.5 bg-white border border-[#1a5e35] text-[#1a5e35] rounded-full font-semibold text-sm hover:bg-[#1a5e35] hover:text-white transition-all shadow-sm">
                                 <i class="fas fa-cloud-download-alt"></i> Lihat File
                             </a>

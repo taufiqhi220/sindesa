@@ -27,6 +27,37 @@ Route::get('/', function () { return view('welcome'); });
 Route::get('/tentang-kami', [AboutController::class, 'index'])->name('tentang-kami');
 Route::get('/verifikasi/surat/{token}', [PublicController::class, 'verifikasiSurat'])->middleware(['signed', 'throttle:15,1'])->name('verifikasi.surat');
 
+// Bypass untuk mengatasi 403 Forbidden pada Windows NTFS Symlink (php artisan serve)
+Route::get('/storage/{path}', function ($path) {
+    $fullPath = storage_path('app/public/' . $path);
+    if (file_exists($fullPath)) {
+        // --- Sistem Keamanan Ketat: Hanya pemilik file atau petugas yang boleh akses ---
+        $user = Auth::user();
+        if ($user && $user->role === 'warga') {
+            $basename = basename($path);
+            $parts = explode('_', $basename);
+            // Format file selalu: Prefix_NIK_Timestamp_Random.ext (contoh: KTP_7371123456780001_1782723817_594.jpg)
+            if (count($parts) >= 2) {
+                $file_nik = $parts[1];
+                if ($user->nik !== $file_nik) {
+                    abort(403, 'AKSES DITOLAK: Anda tidak berhak melihat dokumen milik warga lain.');
+                }
+            }
+        }
+        // -------------------------------------------------------------------------------
+        try {
+            $mime = mime_content_type($fullPath) ?: 'application/octet-stream';
+            // Hindari response()->file() karena is_readable() PHP sering bug di Windows ACL
+            return response(file_get_contents($fullPath), 200)
+                ->header('Content-Type', $mime)
+                ->header('Access-Control-Allow-Origin', '*');
+        } catch (\Exception $e) {
+            dd("ERROR MEMBACA FILE: " . $e->getMessage() . " | PATH: " . $fullPath);
+        }
+    }
+    abort(404);
+})->where('path', '.*')->middleware('auth');
+
 // Data Wilayah (AJAX) — dengan validasi input & rate limiting
     Route::middleware(['throttle:60,1'])->group(function () {
         Route::get('/data/cities', function (Request $request) { 

@@ -167,13 +167,7 @@
                             {{ $surat->user->kewarganegaraan ?? 'Indonesia' }}
                         </div>
                     </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Anak
-                            Ke-</label>
-                        <div class="px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-gray-800 font-semibold">
-                            {{ $dataTambahan['anak_ke'] ?? '-' }}
-                        </div>
-                    </div>
+
                     <div class="md:col-span-2">
                         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Alamat
                             Lengkap</label>
@@ -231,8 +225,7 @@
                     @php
                         $lampiran = [
                             'file_kk' => 'Foto Copy Kartu Keluarga (KK)',
-                            'file_saksi' => 'Dokumen Identitas Saksi',
-                            'file_lain' => 'Dokumen Pendukung Lainnya'
+                            'file_saksi' => 'Dokumen Identitas Saksi'
                         ];
                     @endphp
 
