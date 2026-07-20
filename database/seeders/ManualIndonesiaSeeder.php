@@ -50,11 +50,17 @@ class ManualIndonesiaSeeder extends Seeder
             return;
         }
 
-        fgetcsv($handle); // Lewati header
+        // PENTING: CSV Laravolt tidak memiliki header, baris 1 adalah data (misal: 11,ACEH)
+        // Jadi fgetcsv() untuk lewati header TIDAK dipanggil agar baris 1 (ACEH) tidak terlewat!
 
         $data = [];
         while (($row = fgetcsv($handle)) !== false) {
-            // Mengambil hanya kolom yang dibutuhkan, mengabaikan sisanya
+            // Jika baris bukan data valid (misal berisi text 'code'), lewati
+            if (isset($row[0]) && strtolower($row[0]) === 'code') {
+                continue;
+            }
+            
+            // Mengambil hanya kolom yang dibutuhkan
             $rowData = array_slice($row, 0, count($columnsToInsert));
             if (count($rowData) === count($columnsToInsert)) {
                 $data[] = array_combine($columnsToInsert, $rowData);
@@ -97,10 +103,12 @@ class ManualIndonesiaSeeder extends Seeder
                 continue;
             }
 
-            fgetcsv($handle); // Lewati header
-
             $data = [];
             while (($row = fgetcsv($handle)) !== false) {
+                if (isset($row[0]) && strtolower($row[0]) === 'code') {
+                    continue;
+                }
+
                 // Mengambil hanya kolom yang dibutuhkan
                 $rowData = array_slice($row, 0, count($columnsToInsert));
                 if (count($rowData) === count($columnsToInsert)) {
