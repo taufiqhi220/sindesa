@@ -27,6 +27,16 @@ Route::get('/', function () { return view('welcome'); });
 Route::get('/tentang-kami', [AboutController::class, 'index'])->name('tentang-kami');
 Route::get('/verifikasi/surat/{token}', [PublicController::class, 'verifikasiSurat'])->middleware(['signed', 'throttle:15,1'])->name('verifikasi.surat');
 
+// Route Helper Otomatis untuk Membuat Storage Link di Server Hosting (cPanel / Live Server)
+Route::get('/buat-symlink', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('storage:link');
+        return 'BERHASIL: Storage link berhasil dibuat di server!';
+    } catch (\Exception $e) {
+        return 'INFO / ERROR: ' . $e->getMessage();
+    }
+});
+
 // Bypass untuk mengatasi 403 Forbidden pada Windows NTFS Symlink (php artisan serve)
 Route::get('/storage/{path}', function ($path) {
     $fullPath = storage_path('app/public/' . $path);
