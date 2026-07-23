@@ -240,7 +240,11 @@
                         (Opsional)</label>
                     <span class="block text-xs text-gray-500 mb-4">Maksimal 5MB (PDF/JPG/PNG).</span>
 
-                    @if(isset($data['file_pengantar_rt']) && $data['file_pengantar_rt'])
+                    @php
+                        $filePengantarRt = $data['file_pengantar_rt'] ?? $data['file_pengantar'] ?? $data['berkas_pengantar'] ?? null;
+                    @endphp
+
+                    @if($filePengantarRt)
                         <div class="mb-4 p-3 bg-white border border-gray-200 rounded-xl flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center">
@@ -251,7 +255,7 @@
                                     <p class="text-xs text-gray-500">Telah tersimpan</p>
                                 </div>
                             </div>
-                            <a href="{{ asset('storage/' . $data['file_pengantar_rt']) }}" target="_blank"
+                            <a href="{{ asset('storage/' . $filePengantarRt) }}" target="_blank"
                                 class="text-sm bg-blue-50 text-blue-600 hover:bg-blue-100 px-4 py-2 rounded-lg font-medium transition-colors">
                                 <i class="fas fa-eye mr-1"></i> Lihat
                             </a>

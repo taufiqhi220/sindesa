@@ -259,15 +259,18 @@
                     </div>
                     <div
                         class="flex flex-col sm:flex-row sm:items-center gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                        @php
+                            $filePengantarRt = $dataTambahan['file_pengantar_rt'] ?? $dataTambahan['file_pengantar'] ?? $dataTambahan['berkas_pengantar'] ?? null;
+                        @endphp
                         <div class="flex-1">
                             <label
                                 class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Pengantar
                                 RT / RW</label>
                             <span
-                                class="text-sm text-gray-800 font-medium">{{ !empty($dataTambahan['file_pengantar']) ? 'Berkas Tersedia' : 'Berkas Tidak Ditemukan' }}</span>
+                                class="text-sm text-gray-800 font-medium">{{ !empty($filePengantarRt) ? 'Berkas Tersedia' : 'Berkas Tidak Ditemukan' }}</span>
                         </div>
-                        @if(!empty($dataTambahan['file_pengantar']))
-                            <a href="{{ asset('storage/' . $dataTambahan['file_pengantar']) }}" target="_blank"
+                        @if(!empty($filePengantarRt))
+                            <a href="{{ asset('storage/' . $filePengantarRt) }}" target="_blank"
                                 class="inline-flex justify-center items-center gap-2 px-6 py-2.5 bg-white border border-[#1a5e35] text-[#1a5e35] rounded-full font-semibold text-sm hover:bg-[#1a5e35] hover:text-white transition-all shadow-sm">
                                 <i class="fas fa-cloud-download-alt"></i> Lihat File
                             </a>
