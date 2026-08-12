@@ -671,7 +671,7 @@ class DashboardController extends Controller
 
             if ($request->is_maintenance) {
                 // Mode perbaikan aktif
-                Artisan::call('down', ['--secret' => 'sindesa-admin']); 
+                Artisan::call('down', ['--secret' => config('app.maintenance_secret', env('MAINTENANCE_SECRET', 'sindesa-admin'))]); 
             } else {
                 // Mode perbaikan dimatikan
                 Artisan::call('up'); 

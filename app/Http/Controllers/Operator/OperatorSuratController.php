@@ -11,7 +11,10 @@ class OperatorSuratController extends Controller
     // Fungsi untuk menampilkan halaman detail/review
     public function show($id)
     {
-        $surat = PengajuanSurat::with('user')->findOrFail($id);
+        // KEAMANAN: Operator hanya boleh melihat surat yang statusnya relevan dengan tugasnya
+        $surat = PengajuanSurat::with('user')
+            ->whereIn('status', ['menunggu_verifikasi', 'diproses_kades', 'ditolak'])
+            ->findOrFail($id);
         if (!$surat->is_seen_by_operator) {
             $surat->update(['is_seen_by_operator' => true]);
         }

@@ -177,7 +177,10 @@ class DashboardController extends Controller
     {
         if ($type === 'cetak') return $this->cetakPdf($id);
 
-        $surat = PengajuanSurat::with('user')->findOrFail($id);
+        // KEAMANAN: Kades hanya boleh melihat surat yang statusnya sudah di tahap kades atau selesai
+        $surat = PengajuanSurat::with('user')
+            ->whereIn('status', ['diproses_kades', 'selesai', 'ditolak'])
+            ->findOrFail($id);
         
         if (!$surat->is_seen_by_kades) {
             $surat->update(['is_seen_by_kades' => true]);

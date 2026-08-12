@@ -28,6 +28,7 @@ Route::get('/tentang-kami', [AboutController::class, 'index'])->name('tentang-ka
 Route::get('/verifikasi/surat/{token}', [PublicController::class, 'verifikasiSurat'])->middleware(['signed', 'throttle:15,1'])->name('verifikasi.surat');
 
 // Route Helper Otomatis untuk Membuat Storage Link di Server Hosting (cPanel / Live Server)
+// KEAMANAN: Dilindungi auth + role admin agar tidak bisa diakses publik
 Route::get('/buat-symlink', function () {
     try {
         \Illuminate\Support\Facades\Artisan::call('storage:link');
@@ -35,41 +36,75 @@ Route::get('/buat-symlink', function () {
     } catch (\Exception $e) {
         return 'INFO / ERROR: ' . $e->getMessage();
     }
-});
+})->middleware(['auth', 'role:admin']);
 
 // Bypass untuk mengatasi 403 Forbidden pada Windows NTFS Symlink (php artisan serve)
 Route::get('/storage/{path}', function ($path) {
-    $fullPath = storage_path('app/public/' . $path);
+    // --- KEAMANAN: Cegah Path Traversal (../ attack) ---
+    $basePath = realpath(storage_path('app/public'));
+    $fullPath = realpath(storage_path('app/public/' . $path));
+
+    // Jika realpath gagal (file tidak ada) atau path keluar dari folder storage
+    if (!$fullPath || !str_starts_with($fullPath, $basePath)) {
+        abort(404);
+    }
+
     if (file_exists($fullPath)) {
-        // --- Sistem Keamanan Ketat: Hanya pemilik file atau petugas yang boleh akses ---
         $user = Auth::user();
-        if ($user && $user->role === 'warga') {
-            $basename = basename($path);
-            $parts = explode('_', $basename);
-            // Format file selalu: Prefix_NIK_Timestamp_Random.ext (contoh: KTP_7371123456780001_1782723817_594.jpg)
-            if (count($parts) >= 2) {
-                $file_nik = $parts[1];
-                if ($user->nik !== $file_nik) {
+        
+        // --- Sistem Keamanan Ketat: Kontrol akses berdasarkan role ---
+        // Whitelist: Hanya folder-folder ini yang boleh diakses
+        $allowedDirs = ['pengajuan', 'foto_ktp_warga', 'profil', 'ttd_kades', 'ttd', 'logos'];
+        $pathSegments = explode('/', str_replace('\\', '/', $path));
+        $requestedDir = $pathSegments[0] ?? '';
+
+        if (!in_array($requestedDir, $allowedDirs)) {
+            abort(403, 'AKSES DITOLAK: Direktori tidak diizinkan.');
+        }
+
+        // ROLE WARGA: Hanya boleh akses file milik sendiri
+        if ($user->role === 'warga') {
+            // Folder foto_ktp_warga & profil: cek berdasarkan record user
+            if (in_array($requestedDir, ['foto_ktp_warga', 'profil'])) {
+                $userFiles = array_filter([$user->foto_ktp, $user->foto_profil]);
+                if (!in_array($path, $userFiles)) {
                     abort(403, 'AKSES DITOLAK: Anda tidak berhak melihat dokumen milik warga lain.');
                 }
             }
+            // Folder pengajuan: cek berdasarkan surat milik warga
+            elseif ($requestedDir === 'pengajuan') {
+                $milikUser = \App\Models\PengajuanSurat::where('user_id', $user->id)
+                    ->get()
+                    ->pluck('data_tambahan')
+                    ->filter()
+                    ->flatMap(fn($dt) => collect($dt)->filter(fn($v) => is_string($v) && str_starts_with($v, 'pengajuan/')))
+                    ->contains($path);
+                if (!$milikUser) {
+                    abort(403, 'AKSES DITOLAK: Anda tidak berhak melihat dokumen milik warga lain.');
+                }
+            }
+            // Folder ttd_kades, ttd, logos: warga tidak boleh akses langsung
+            elseif (in_array($requestedDir, ['ttd_kades', 'ttd'])) {
+                abort(403, 'AKSES DITOLAK.');
+            }
         }
         // -------------------------------------------------------------------------------
+
         try {
             $mime = mime_content_type($fullPath) ?: 'application/octet-stream';
-            // Hindari response()->file() karena is_readable() PHP sering bug di Windows ACL
             return response(file_get_contents($fullPath), 200)
                 ->header('Content-Type', $mime)
-                ->header('Access-Control-Allow-Origin', '*');
+                ->header('Cache-Control', 'private, no-store');
         } catch (\Exception $e) {
-            dd("ERROR MEMBACA FILE: " . $e->getMessage() . " | PATH: " . $fullPath);
+            \Illuminate\Support\Facades\Log::error('File read error: ' . $e->getMessage());
+            abort(500, 'Gagal membaca file.');
         }
     }
     abort(404);
 })->where('path', '.*')->middleware('auth');
 
-// Data Wilayah (AJAX) — dengan validasi input & rate limiting
-    Route::middleware(['throttle:60,1'])->group(function () {
+// Data Wilayah (AJAX) — dengan validasi input & rate limiting ketat
+    Route::middleware(['throttle:30,1'])->group(function () {
         Route::get('/data/cities', function (Request $request) { 
             $request->validate(['province_code' => 'required|string|max:10']);
             return DB::table('indonesia_cities')->where('province_code', $request->province_code)->orderBy('name', 'asc')->get(); 
