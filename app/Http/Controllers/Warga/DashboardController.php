@@ -13,10 +13,19 @@ use Laravolt\Indonesia\Models\District;
 use Laravolt\Indonesia\Models\Village;
 use App\Models\PengajuanSurat;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Str;
 
 class DashboardController extends Controller
 {
+    /**
+     * Helper: Simpan file dengan nama acak berbasis UUIDv4
+     */
+    private function storeFileUuid($file, string $folder = 'pengajuan'): string
+    {
+        $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+        return $file->storeAs($folder, $filename, 'public');
+    }
+
     //View Dashboard
     public function index()
     {
@@ -156,8 +165,8 @@ class DashboardController extends Controller
                 Storage::disk('public')->delete($user->foto_profil);
             }
             
-            // Simpan foto baru ke folder storage/app/public/profil
-            $data['foto_profil'] = $request->file('foto_profil')->store('profil', 'public');
+            // Simpan foto baru ke folder storage/app/public/profil dengan UUIDv4
+            $data['foto_profil'] = $this->storeFileUuid($request->file('foto_profil'), 'profil');
         }
 
         // 4. Proses Password jika form password diisi
@@ -200,10 +209,10 @@ class DashboardController extends Controller
             'file_lain' => 'nullable|file|mimes:pdf,jpg,png,jpeg|max:5120',
         ]);
 
-        // Upload File ke folder public/pengajuan
-        $pathKk = $request->file('file_kk')->store('pengajuan', 'public');
-        $pathSaksi = $request->file('file_saksi')->store('pengajuan', 'public');
-        $pathLain = $request->hasFile('file_lain') ? $request->file('file_lain')->store('pengajuan', 'public') : null;
+        // Upload File ke folder public/pengajuan dengan nama UUIDv4
+        $pathKk = $this->storeFileUuid($request->file('file_kk'), 'pengajuan');
+        $pathSaksi = $this->storeFileUuid($request->file('file_saksi'), 'pengajuan');
+        $pathLain = $request->hasFile('file_lain') ? $this->storeFileUuid($request->file('file_lain'), 'pengajuan') : null;
 
         // Gabungkan semua input menjadi JSON
         $dataTambahan = [
@@ -267,19 +276,19 @@ class DashboardController extends Controller
             $data[$key] = $value;
         }
 
-        // Update file dan Hapus file lama jika ada upload baru
+        // Update file dan Hapus file lama jika ada upload baru dengan UUIDv4
         if ($request->hasFile('file_kk')) {
             if (isset($data['file_kk'])) {
                 Storage::disk('public')->delete($data['file_kk']);
             }
-            $data['file_kk'] = $request->file('file_kk')->store('pengajuan', 'public');
+            $data['file_kk'] = $this->storeFileUuid($request->file('file_kk'), 'pengajuan');
         }
         
         if ($request->hasFile('file_saksi')) {
             if (isset($data['file_saksi'])) {
                 Storage::disk('public')->delete($data['file_saksi']);
             }
-            $data['file_saksi'] = $request->file('file_saksi')->store('pengajuan', 'public');
+            $data['file_saksi'] = $this->storeFileUuid($request->file('file_saksi'), 'pengajuan');
         }
 
         $surat->update([
@@ -327,8 +336,8 @@ class DashboardController extends Controller
             'pekerjaan' => $request->pekerjaan,
             'alamat' => $request->alamat,
             
-            'file_kk' => $request->file('file_kk')->store('pengajuan', 'public'),
-            'file_ktp_lama' => $request->hasFile('file_ktp_lama') ? $request->file('file_ktp_lama')->store('pengajuan', 'public') : null,
+            'file_kk' => $this->storeFileUuid($request->file('file_kk'), 'pengajuan'),
+            'file_ktp_lama' => $request->hasFile('file_ktp_lama') ? $this->storeFileUuid($request->file('file_ktp_lama'), 'pengajuan') : null,
         ];
 
         PengajuanSurat::create([
@@ -387,15 +396,15 @@ class DashboardController extends Controller
             $data[$key] = $value;
         }
 
-        // Loop File Inputs (Hapus yang lama, simpan yang baru)
+        // Loop File Inputs (Hapus yang lama, simpan yang baru dengan UUIDv4)
         if ($request->hasFile('file_kk')) {
             if (isset($data['file_kk'])) Storage::disk('public')->delete($data['file_kk']);
-            $data['file_kk'] = $request->file('file_kk')->store('pengajuan', 'public');
+            $data['file_kk'] = $this->storeFileUuid($request->file('file_kk'), 'pengajuan');
         }
 
         if ($request->hasFile('file_ktp_lama')) {
             if (isset($data['file_ktp_lama'])) Storage::disk('public')->delete($data['file_ktp_lama']);
-            $data['file_ktp_lama'] = $request->file('file_ktp_lama')->store('pengajuan', 'public');
+            $data['file_ktp_lama'] = $this->storeFileUuid($request->file('file_ktp_lama'), 'pengajuan');
         }
 
         $surat->update([
@@ -452,9 +461,9 @@ class DashboardController extends Controller
             'rt' => $request->rt,
             'rw' => $request->rw,
             
-            'file_kk_lama' => $request->hasFile('file_kk_lama') ? $request->file('file_kk_lama')->store('pengajuan', 'public') : null,
-            'file_nikah' => $request->hasFile('file_nikah') ? $request->file('file_nikah')->store('pengajuan', 'public') : null,
-            'file_lain' => $request->hasFile('file_lain') ? $request->file('file_lain')->store('pengajuan', 'public') : null,
+            'file_kk_lama' => $request->hasFile('file_kk_lama') ? $this->storeFileUuid($request->file('file_kk_lama'), 'pengajuan') : null,
+            'file_nikah' => $request->hasFile('file_nikah') ? $this->storeFileUuid($request->file('file_nikah'), 'pengajuan') : null,
+            'file_lain' => $request->hasFile('file_lain') ? $this->storeFileUuid($request->file('file_lain'), 'pengajuan') : null,
         ];
 
         PengajuanSurat::create([
@@ -518,14 +527,14 @@ class DashboardController extends Controller
             $data[$key] = $value;
         }
 
-        // Loop File Inputs (Hapus yang lama, simpan yang baru)
+        // Loop File Inputs (Hapus yang lama, simpan yang baru dengan UUIDv4)
         $fileFields = ['file_kk_lama', 'file_nikah', 'file_lain'];
         foreach ($fileFields as $field) {
             if ($request->hasFile($field)) {
                 if (isset($data[$field])) {
                     Storage::disk('public')->delete($data[$field]);
                 }
-                $data[$field] = $request->file($field)->store('pengajuan', 'public');
+                $data[$field] = $this->storeFileUuid($request->file($field), 'pengajuan');
             }
         }
 
@@ -594,10 +603,10 @@ class DashboardController extends Controller
             'nama_pelapor' => $request->nama_pelapor,
             'hubungan_pelapor' => $request->hubungan_pelapor,
 
-            'file_ktp_almarhum' => $request->file('file_ktp_almarhum')->store('pengajuan', 'public'),
-            'file_kk_almarhum' => $request->file('file_kk_almarhum')->store('pengajuan', 'public'),
-            'file_ktp_pelapor' => $request->file('file_ktp_pelapor')->store('pengajuan', 'public'),
-            'file_rs' => $request->hasFile('file_rs') ? $request->file('file_rs')->store('pengajuan', 'public') : null,
+            'file_ktp_almarhum' => $this->storeFileUuid($request->file('file_ktp_almarhum'), 'pengajuan'),
+            'file_kk_almarhum' => $this->storeFileUuid($request->file('file_kk_almarhum'), 'pengajuan'),
+            'file_ktp_pelapor' => $this->storeFileUuid($request->file('file_ktp_pelapor'), 'pengajuan'),
+            'file_rs' => $request->hasFile('file_rs') ? $this->storeFileUuid($request->file('file_rs'), 'pengajuan') : null,
         ];
 
         PengajuanSurat::create([
@@ -671,7 +680,7 @@ class DashboardController extends Controller
             $data[$key] = $value;
         }
 
-        // Loop Update & Hapus Files
+        // Loop Update & Hapus Files (dengan UUIDv4)
         $fileFields = ['file_ktp_almarhum', 'file_kk_almarhum', 'file_ktp_pelapor', 'file_rs'];
         
         foreach ($fileFields as $field) {
@@ -679,7 +688,7 @@ class DashboardController extends Controller
                 if (isset($data[$field])) {
                     Storage::disk('public')->delete($data[$field]);
                 }
-                $data[$field] = $request->file($field)->store('pengajuan', 'public');
+                $data[$field] = $this->storeFileUuid($request->file($field), 'pengajuan');
             }
         }
 
@@ -785,9 +794,9 @@ class DashboardController extends Controller
             'tanggal_pindah' => $request->tanggal_pindah,
             'anggota_keluarga' => $anggotaKeluarga,
 
-            'file_ktp' => $request->file('file_ktp')->store('pengajuan', 'public'),
-            'file_kk' => $request->file('file_kk')->store('pengajuan', 'public'),
-            'file_lain' => $request->hasFile('file_lain') ? $request->file('file_lain')->store('pengajuan', 'public') : null,
+            'file_ktp' => $this->storeFileUuid($request->file('file_ktp'), 'pengajuan'),
+            'file_kk' => $this->storeFileUuid($request->file('file_kk'), 'pengajuan'),
+            'file_lain' => $request->hasFile('file_lain') ? $this->storeFileUuid($request->file('file_lain'), 'pengajuan') : null,
         ];
 
         PengajuanSurat::create([

@@ -13,6 +13,8 @@ use Laravolt\Indonesia\Models\City;
 use Laravolt\Indonesia\Models\District;
 use Laravolt\Indonesia\Models\Village;
 
+use Illuminate\Support\Str;
+
 class AuthController extends Controller
 {
     // ==========================================
@@ -217,10 +219,12 @@ class AuthController extends Controller
             'foto_ktp'          => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Proses upload foto KTP
+        // Proses upload foto KTP dengan UUIDv4
         $fotoKtpPath = null;
         if ($request->hasFile('foto_ktp')) {
-            $fotoKtpPath = $request->file('foto_ktp')->store('foto_ktp_warga', 'public');
+            $file = $request->file('foto_ktp');
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $fotoKtpPath = $file->storeAs('foto_ktp_warga', $filename, 'public');
         }
 
         // 2. Simpan ke database

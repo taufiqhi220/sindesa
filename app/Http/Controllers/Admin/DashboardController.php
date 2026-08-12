@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 
 class DashboardController extends Controller
@@ -419,11 +420,12 @@ class DashboardController extends Controller
                 ->update(['status' => 'inactive']);
         }
 
-        // 3. Proses Upload Spesimen Tanda Tangan
+        // 3. Proses Upload Spesimen Tanda Tangan dengan UUIDv4
         $ttdPath = null;
         if ($request->hasFile('ttd_path')) {
-            // Menyimpan gambar ke folder storage/app/public/ttd_kades
-            $ttdPath = $request->file('ttd_path')->store('ttd_kades', 'public');
+            $file = $request->file('ttd_path');
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $ttdPath = $file->storeAs('ttd_kades', $filename, 'public');
         }
 
         // 4. Simpan Data ke Database
@@ -477,7 +479,7 @@ class DashboardController extends Controller
                 ->update(['status' => 'inactive']);
         }
 
-        // Proses Upload Spesimen Baru (jika ada)
+        // Proses Upload Spesimen Baru (jika ada dengan UUIDv4)
         $ttdPath = $kades->ttd_path; // Default ke path lama
         if ($request->hasFile('ttd_path')) {
             // Hapus spesimen lama dari storage jika ada
@@ -486,7 +488,9 @@ class DashboardController extends Controller
             }
             
             // Simpan spesimen baru
-            $ttdPath = $request->file('ttd_path')->store('ttd_kades', 'public');
+            $file = $request->file('ttd_path');
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $ttdPath = $file->storeAs('ttd_kades', $filename, 'public');
         }
 
         // Update Database
@@ -587,7 +591,9 @@ class DashboardController extends Controller
             if ($pengaturan->logo_path) {
                 Storage::disk('public')->delete($pengaturan->logo_path);
             }
-            $pengaturan->logo_path = $request->file('logo')->store('logos', 'public');
+            $file = $request->file('logo');
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $pengaturan->logo_path = $file->storeAs('logos', $filename, 'public');
         }
 
         $pengaturan->header_1 = $request->header_1;
@@ -628,7 +634,9 @@ class DashboardController extends Controller
 
         if ($request->hasFile('logo')) {
             if ($pengaturan->logo_path) Storage::disk('public')->delete($pengaturan->logo_path);
-            $pengaturan->logo_path = $request->file('logo')->store('logos', 'public');
+            $file = $request->file('logo');
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $pengaturan->logo_path = $file->storeAs('logos', $filename, 'public');
         }
         
         $pengaturan->save();
@@ -657,7 +665,9 @@ class DashboardController extends Controller
 
         if ($request->hasFile('foto_profil')) {
             if ($user->foto_profil) Storage::disk('public')->delete($user->foto_profil);
-            $user->foto_profil = $request->file('foto_profil')->store('profil', 'public');
+            $file = $request->file('foto_profil');
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $user->foto_profil = $file->storeAs('profil', $filename, 'public');
         }
 
         $user->save();

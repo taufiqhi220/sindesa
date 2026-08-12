@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth; // Tambahkan ini
+use Illuminate\Support\Str;
 use App\Models\PengajuanSurat;
 
 class PengaturanAkunController extends Controller
@@ -40,7 +41,9 @@ class PengaturanAkunController extends Controller
             if ($user->foto_profil && Storage::disk('public')->exists($user->foto_profil)) {
                 Storage::disk('public')->delete($user->foto_profil);
             }
-            $user->foto_profil = $request->file('foto_profil')->store('profil', 'public');
+            $file = $request->file('foto_profil');
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $user->foto_profil = $file->storeAs('profil', $filename, 'public');
         }
 
         $user->save();

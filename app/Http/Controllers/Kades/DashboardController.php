@@ -136,7 +136,9 @@ class DashboardController extends Controller
 
         if ($request->hasFile('foto_profil')) {
             if ($user->foto_profil) Storage::disk('public')->delete($user->foto_profil);
-            $user->update(['foto_profil' => $request->file('foto_profil')->store('profil', 'public')]);
+            $file = $request->file('foto_profil');
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $user->update(['foto_profil' => $file->storeAs('profil', $filename, 'public')]);
         }
         return back()->with('success', 'Foto profil berhasil diperbarui.');
     }
@@ -150,7 +152,9 @@ class DashboardController extends Controller
 
         if ($request->hasFile('ttd_image')) {
             if ($user->ttd_path) Storage::disk('public')->delete($user->ttd_path);
-            $user->update(['ttd_path' => $request->file('ttd_image')->store('ttd', 'public')]);
+            $file = $request->file('ttd_image');
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $user->update(['ttd_path' => $file->storeAs('ttd', $filename, 'public')]);
         }
         return back()->with('success', 'Spesimen tanda tangan berhasil diperbarui.');
     }
