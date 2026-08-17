@@ -119,6 +119,33 @@
 <body>
 
     @php
+    $ttdRenderSrc = null;
+    if (isset($kades)) {
+        if (!empty($kades->ttd_base64)) {
+            $ttdRenderSrc = $kades->ttd_base64;
+        } elseif (!empty($kades->ttd_path)) {
+            $cleanTtdPath = ltrim(str_replace(['storage/app/public/', 'public/storage/', 'storage/'], '', $kades->ttd_path), '/');
+            $ttdBaseFilename = basename($cleanTtdPath);
+            $ttdCandidates = [
+                storage_path('app/public/' . $cleanTtdPath),
+                storage_path('app/public/ttd/' . $ttdBaseFilename),
+                storage_path('app/public/ttd_kades/' . $ttdBaseFilename),
+                public_path('storage/' . $cleanTtdPath),
+                public_path('storage/ttd/' . $ttdBaseFilename),
+                public_path('storage/ttd_kades/' . $ttdBaseFilename),
+            ];
+            foreach ($ttdCandidates as $tPath) {
+                if (file_exists($tPath) && is_file($tPath)) {
+                    $tMime = mime_content_type($tPath) ?: 'image/png';
+                    $ttdRenderSrc = 'data:' . $tMime . ';base64,' . base64_encode(file_get_contents($tPath));
+                    break;
+                }
+            }
+        }
+    }
+@endphp
+
+@php
         $data = is_string($surat->data_tambahan) ? json_decode($surat->data_tambahan, true) : (array) $surat->data_tambahan;
         // Penanganan QR Code
         $qrData = \Illuminate\Support\Facades\URL::signedRoute('verifikasi.surat', ['token' => $surat->token_verifikasi ?? 'data-lama']);
@@ -244,11 +271,11 @@
                         <img src="data:image/svg+xml;base64,{{ $qrCode }}" width="85">
                     </div>
                     <p style="font-size: 8pt; color: gray; margin-bottom: 5px;"><i>Ditandatangani secara elektronik</i></p>
-                @elseif($surat->metode_ttd == 'konvensional')
-                    @if($kades && $kades->ttd_path)
-                        <img src="{{ public_path('storage/' . $kades->ttd_path) }}" width="110"
-                            style="margin-top: 10px; margin-bottom: 10px;">
-                    @else
+                @elseif(($surat->metode_ttd == 'konvensional' || empty($surat->metode_ttd)) && !empty($ttdRenderSrc))
+                    <div style="margin: 8px 0;">
+                        <img src="{{ $ttdRenderSrc }}" width="105" style="display: block; margin: 0 auto;">
+                    </div>
+                @else
                         <div style="height: 80px;"></div>
                     @endif
                 @else
