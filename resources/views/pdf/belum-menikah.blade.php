@@ -132,12 +132,44 @@
                 public_path('storage/' . $cleanTtdPath),
                 public_path('storage/ttd/' . $ttdBaseFilename),
                 public_path('storage/ttd_kades/' . $ttdBaseFilename),
+                '/home/sindesa/sindesa-app/storage/app/public/' . $cleanTtdPath,
+                '/home/sindesa/sindesa-app/storage/app/public/ttd_kades/' . $ttdBaseFilename,
+                '/home/sindesa/sindesa-app/storage/app/public/ttd/' . $ttdBaseFilename,
             ];
             foreach ($ttdCandidates as $tPath) {
                 if (file_exists($tPath) && is_file($tPath)) {
                     $tMime = mime_content_type($tPath) ?: 'image/png';
                     $ttdRenderSrc = 'data:' . $tMime . ';base64,' . base64_encode(file_get_contents($tPath));
                     break;
+                }
+            }
+        }
+    }
+
+    // Smart Fallback: Jika ttdRenderSrc masih null, cari file ttd kades apapun yang ada di storage
+    if (empty($ttdRenderSrc)) {
+        $scanDirs = [
+            storage_path('app/public/ttd_kades'),
+            storage_path('app/public/ttd'),
+            public_path('storage/ttd_kades'),
+            public_path('storage/ttd'),
+            '/home/sindesa/sindesa-app/storage/app/public/ttd_kades',
+            '/home/sindesa/sindesa-app/storage/app/public/ttd',
+        ];
+        foreach ($scanDirs as $sDir) {
+            if (is_dir($sDir)) {
+                $sFiles = @scandir($sDir);
+                if ($sFiles) {
+                    foreach ($sFiles as $sf) {
+                        if ($sf !== '.' && $sf !== '..' && !str_starts_with($sf, '.')) {
+                            $sfPath = $sDir . '/' . $sf;
+                            if (is_file($sfPath)) {
+                                $sMime = mime_content_type($sfPath) ?: 'image/png';
+                                $ttdRenderSrc = 'data:' . $sMime . ';base64,' . base64_encode(file_get_contents($sfPath));
+                                break 2;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -313,9 +345,11 @@
                     <p style="font-size: 10pt; color: #777; margin: 0; font-style: italic;">Ditandatangani secara elektronik
                     </p>
                     <div style="margin-top: 15px;"></div>
-                @elseif(($surat->metode_ttd == 'konvensional' || empty($surat->metode_ttd)) && !empty($ttdRenderSrc))
+                @elseif($surat->metode_ttd == 'manual')
+                    <div style="height: 80px;"></div>
+                @elseif(!empty($ttdRenderSrc))
                     <div style="margin: 8px 0;">
-                        <img src="{{ $ttdRenderSrc }}" width="105" style="display: block; margin: 0 auto;">
+                        <img src="{{ $ttdRenderSrc }}" width="115" style="display: block; margin: 0 auto;">
                     </div>
                 @else
                     <div style="height: 80px;"></div>
