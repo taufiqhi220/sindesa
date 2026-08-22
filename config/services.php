@@ -40,4 +40,13 @@ return [
         'secret_key' => env('RECAPTCHA_SECRET_KEY'),
     ],
 
+    'gemini' => [
+        'api_key' => env('GEMINI_API_KEY'),
+    ],
+
+    'indobert' => [
+        'api_url' => env('INDOBERT_API_URL', 'http://127.0.0.1:5000/api/chat'),
+        'timeout' => env('INDOBERT_TIMEOUT', 30),
+    ],
+
 ];
