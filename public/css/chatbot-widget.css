@@ -1,0 +1,790 @@
+/*
+ * SINDESA Chatbot Widget Premium Stylesheet
+ * Custom styles with Glassmorphism, animations, responsive layout and expanded states.
+ */
+
+:root {
+    --sindesa-primary: #2e7d32;
+    --sindesa-primary-dark: #11442b;
+    --sindesa-accent: #cfa03f;
+    --sindesa-accent-hover: #b88e32;
+    --sindesa-bg-light: #f4fbf7;
+    --sindesa-text: #333333;
+    --sindesa-text-muted: #666666;
+    --sindesa-white: #ffffff;
+    --sindesa-shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --sindesa-shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --sindesa-shadow-xl: 0 20px 40px -5px rgba(17, 68, 43, 0.15), 0 12px 16px -8px rgba(0, 0, 0, 0.08);
+    --sindesa-radius-sm: 8px;
+    --sindesa-radius-md: 16px;
+    --sindesa-radius-lg: 24px;
+}
+
+/* Chat Shell Wrapper */
+.sindesa-chat-shell {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Floating Trigger Button */
+.sindesa-chat-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--sindesa-primary) 0%, var(--sindesa-primary-dark) 100%);
+    color: var(--sindesa-white);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(46, 125, 50, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+}
+
+.sindesa-chat-toggle:hover {
+    transform: scale(1.08) translateY(-3px);
+    box-shadow: 0 12px 28px rgba(46, 125, 50, 0.5);
+    background: linear-gradient(135deg, #37923b 0%, var(--sindesa-primary) 100%);
+}
+
+.sindesa-chat-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Chat Window Panel */
+.sindesa-chat-window {
+    position: absolute;
+    bottom: 76px;
+    right: 0;
+    width: 390px;
+    max-width: calc(100vw - 32px);
+    height: 540px;
+    max-height: calc(100vh - 110px);
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(46, 125, 50, 0.18);
+    border-radius: var(--sindesa-radius-md);
+    box-shadow: 0 16px 40px -10px rgba(17, 68, 43, 0.2), 0 8px 16px -6px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.95);
+    transform-origin: bottom right;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Active State */
+.sindesa-chat-window:not([aria-hidden="true"]) {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+/* Expanded State */
+.sindesa-chat-window.sindesa-chat-window--expanded {
+    width: 620px;
+    max-width: calc(100vw - 40px);
+    height: 640px;
+    max-height: calc(100vh - 110px);
+}
+
+/* Panel Khusus Profil & Penjelasan Chatbot AI SINDESA (Internal Full View) */
+.sindesa-chat-about-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.sindesa-chat-about-header {
+    background: linear-gradient(135deg, var(--sindesa-primary-dark) 0%, var(--sindesa-primary) 100%);
+    color: var(--sindesa-white);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--sindesa-shadow-sm);
+    flex-shrink: 0;
+}
+
+.sindesa-chat-about-header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sindesa-chat-about-header-title i {
+    font-size: 18px;
+    color: var(--sindesa-white);
+    background: rgba(255, 255, 255, 0.15);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sindesa-chat-about-header-title h3 {
+    margin: 0;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--sindesa-white);
+    line-height: 1.2;
+}
+
+.sindesa-chat-about-header-title p {
+    margin: 0;
+    font-size: 10.5px;
+    opacity: 0.85;
+    color: var(--sindesa-white);
+}
+
+.sindesa-chat-about-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 16px 18px 24px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sindesa-chat-about-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sindesa-chat-about-body::-webkit-scrollbar-thumb {
+    background: rgba(46, 125, 50, 0.25);
+    border-radius: 10px;
+}
+
+.sindesa-chat-about-badge {
+    align-self: flex-start;
+    background: linear-gradient(135deg, rgba(46, 125, 50, 0.12) 0%, rgba(207, 160, 63, 0.15) 100%);
+    color: var(--sindesa-primary-dark);
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(46, 125, 50, 0.2);
+}
+
+.sindesa-chat-about-intro h4 {
+    margin: 0;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--sindesa-primary-dark);
+}
+
+.sindesa-chat-about-intro p {
+    margin: 3px 0 0 0;
+    font-size: 11px;
+    color: var(--sindesa-text-muted);
+    line-height: 1.45;
+}
+
+.sindesa-chat-about-section {
+    background: #f4fbf7;
+    border-left: 3.5px solid var(--sindesa-primary);
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.sindesa-chat-about-section h5 {
+    margin: 0 0 3px 0;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--sindesa-primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sindesa-chat-about-section p {
+    margin: 0;
+    font-size: 11px;
+    color: var(--sindesa-text);
+    line-height: 1.45;
+}
+
+.sindesa-chat-about-list {
+    margin: 3px 0 0 0;
+    padding-left: 16px;
+    font-size: 10.5px;
+    line-height: 1.5;
+    color: var(--sindesa-text);
+}
+
+.sindesa-chat-about-section--tips {
+    background: #fdfaf3;
+    border-left-color: #cfa03f;
+}
+
+.sindesa-chat-about-section--tips h5 {
+    color: #9c6c0e;
+}
+
+.sindesa-chat-about-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.sindesa-chat-about-btn-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--sindesa-primary) 0%, var(--sindesa-primary-dark) 100%);
+    color: var(--sindesa-white) !important;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(46, 125, 50, 0.25);
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.sindesa-chat-about-btn-back:hover {
+    transform: translateY(-1.5px);
+    box-shadow: 0 5px 12px rgba(46, 125, 50, 0.35);
+}
+
+.sindesa-chat-about-btn-back:active {
+    transform: translateY(0);
+}
+
+/* Header styling */
+.sindesa-chat-header {
+    background: linear-gradient(135deg, var(--sindesa-primary-dark) 0%, var(--sindesa-primary) 100%);
+    color: var(--sindesa-white);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--sindesa-shadow-sm);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+}
+
+.sindesa-chat-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.sindesa-chat-avatar--header {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.15);
+    font-size: 18px;
+    margin-right: 12px;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+}
+
+.sindesa-chat-heading {
+    flex-grow: 1;
+}
+
+.sindesa-chat-heading h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 2px 0;
+    line-height: 1.2;
+    letter-spacing: 0.3px;
+    color: var(--sindesa-white);
+}
+
+.sindesa-chat-heading p {
+    font-size: 11px;
+    margin: 0;
+    opacity: 0.85;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--sindesa-white);
+}
+
+.sindesa-chat-online-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #4ef03b;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 0 0 rgba(78, 240, 59, 0.7);
+    animation: sindesa-pulse 2s infinite;
+}
+
+@keyframes sindesa-pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(78, 240, 59, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 6px rgba(78, 240, 59, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(78, 240, 59, 0);
+    }
+}
+
+.sindesa-chat-header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.sindesa-chat-icon-button {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.8) !important;
+    text-decoration: none !important;
+    cursor: pointer;
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.sindesa-chat-icon-button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--sindesa-white);
+}
+
+.sindesa-chat-icon-button:active {
+    transform: scale(0.9);
+}
+
+/* Chat Messages Area */
+.sindesa-chat-messages {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #fafdfb;
+    background-image: radial-gradient(rgba(46, 125, 50, 0.03) 1px, transparent 0);
+    background-size: 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Slim Custom Scrollbar */
+.sindesa-chat-messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sindesa-chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sindesa-chat-messages::-webkit-scrollbar-thumb {
+    background: rgba(46, 125, 50, 0.2);
+    border-radius: 10px;
+}
+
+.sindesa-chat-messages::-webkit-scrollbar-thumb:hover {
+    background: rgba(46, 125, 50, 0.4);
+}
+
+/* Chat Rows & Bubbles */
+.sindesa-chat-row {
+    display: flex;
+    align-items: flex-end;
+    max-width: 85%;
+    gap: 8px;
+}
+
+.sindesa-chat-row--bot {
+    align-self: flex-start;
+}
+
+.sindesa-chat-row--user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+    max-width: 80%;
+}
+
+.sindesa-chat-avatar--bot {
+    width: 32px;
+    height: 32px;
+    background-color: var(--sindesa-bg-light);
+    color: var(--sindesa-primary);
+    border: 1px solid rgba(46, 125, 50, 0.2);
+    font-size: 13px;
+    box-shadow: var(--sindesa-shadow-sm);
+}
+
+.sindesa-chat-bubble {
+    padding: 12px 16px;
+    border-radius: var(--sindesa-radius-md);
+    font-size: 13.5px;
+    line-height: 1.5;
+    position: relative;
+    box-shadow: var(--sindesa-shadow-sm);
+    word-break: break-word;
+    white-space: pre-line;
+}
+
+.sindesa-chat-bubble--bot {
+    background-color: var(--sindesa-white);
+    color: var(--sindesa-text);
+    border-bottom-left-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.sindesa-chat-bubble--user {
+    background: linear-gradient(135deg, var(--sindesa-primary) 0%, var(--sindesa-primary-dark) 100%);
+    color: var(--sindesa-white);
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+}
+
+/* Suggestions Pills */
+.sindesa-chat-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-left: 40px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.sindesa-chat-suggestions button {
+    background-color: var(--sindesa-white);
+    color: var(--sindesa-primary);
+    border: 1px solid rgba(46, 125, 50, 0.25);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--sindesa-shadow-sm);
+}
+
+.sindesa-chat-suggestions button:hover {
+    background-color: var(--sindesa-primary);
+    color: var(--sindesa-white);
+    border-color: var(--sindesa-primary);
+    transform: translateY(-1.5px);
+    box-shadow: 0 4px 8px rgba(46, 125, 50, 0.12);
+}
+
+.sindesa-chat-suggestions button:active {
+    transform: translateY(0);
+}
+
+/* Chat Footer Styling */
+.sindesa-chat-footer {
+    padding: 14px 20px;
+    background-color: var(--sindesa-white);
+    border-top: 1px solid rgba(46, 125, 50, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.sindesa-chat-input-row {
+    display: flex;
+    align-items: center;
+    background-color: #f3f7f4;
+    border: 1px solid rgba(46, 125, 50, 0.12);
+    border-radius: var(--sindesa-radius-md);
+    padding: 6px 12px;
+    transition: all 0.25s ease;
+}
+
+.sindesa-chat-input-row:focus-within {
+    background-color: var(--sindesa-white);
+    border-color: var(--sindesa-primary);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+.sindesa-chat-input-row textarea {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+    font-size: 13.5px;
+    color: var(--sindesa-text);
+    padding: 8px 4px;
+    max-height: 80px;
+    line-height: 1.4;
+}
+
+.sindesa-chat-input-row textarea::placeholder {
+    color: #999;
+}
+
+.sindesa-chat-input-row button {
+    background: var(--sindesa-primary);
+    color: var(--sindesa-white);
+    border: none;
+    outline: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    flex-shrink: 0;
+    box-shadow: var(--sindesa-shadow-sm);
+}
+
+.sindesa-chat-input-row button:hover {
+    background-color: var(--sindesa-primary-dark);
+    transform: scale(1.05) rotate(15deg);
+}
+
+.sindesa-chat-input-row button:active {
+    transform: scale(0.95);
+}
+
+.sindesa-chat-footer p {
+    font-size: 10px;
+    color: var(--sindesa-text-muted);
+    text-align: center;
+    margin: 0;
+    opacity: 0.8;
+}
+
+/* Animations and Transitions */
+.sindesa-chat-pop {
+    animation: sindesa-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes sindesa-pop {
+    0% {
+        opacity: 0;
+        transform: translateY(12px) scale(0.92);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Typing Indicator Styling */
+.sindesa-chat-typing {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    min-height: 24px;
+}
+
+.sindesa-chat-typing span {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: var(--sindesa-primary);
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: sindesa-bounce 1.4s infinite ease-in-out both;
+}
+
+.sindesa-chat-typing span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.sindesa-chat-typing span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes sindesa-bounce {
+    0%, 80%, 100% { 
+        transform: scale(0);
+        opacity: 0.4;
+    } 
+    40% { 
+        transform: scale(1.0);
+        opacity: 1;
+    }
+}
+
+/* Formatted layouts inside chat bubble */
+.sindesa-chat-bubble-title {
+    font-weight: 600;
+    color: var(--sindesa-primary-dark);
+    margin-bottom: 6px;
+    border-bottom: 1px solid rgba(46, 125, 50, 0.1);
+    padding-bottom: 3px;
+    font-size: 14px;
+}
+
+.sindesa-chat-bubble-list {
+    margin: 6px 0;
+    padding-left: 20px;
+}
+
+.sindesa-chat-bubble-list li {
+    margin-bottom: 4px;
+    font-size: 13px;
+}
+
+.sindesa-chat-bubble-link {
+    display: inline-block;
+    margin-top: 8px;
+    background-color: var(--sindesa-primary);
+    color: var(--sindesa-white) !important;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 11.5px;
+    padding: 6px 12px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    border: 1px solid var(--sindesa-primary);
+}
+
+.sindesa-chat-bubble-link:hover {
+    background-color: var(--sindesa-primary-dark);
+    border-color: var(--sindesa-primary-dark);
+    transform: translateY(-1px);
+}
+
+/* Inline clickable links, Instagram, & WhatsApp buttons */
+.sindesa-chat-inline-link {
+    color: var(--sindesa-primary, #2e7d32);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    word-break: break-all;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sindesa-chat-inline-link:hover {
+    color: #1b5e20;
+    text-decoration-color: #1b5e20;
+    background-color: rgba(46, 125, 50, 0.08);
+    border-radius: 4px;
+    padding: 0 3px;
+}
+
+/* Responsive Mobile Screen Configurations */
+@media (max-width: 640px) {
+    .sindesa-chat-shell {
+        bottom: 16px;
+        right: 16px;
+    }
+    
+    .sindesa-chat-window {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        max-height: 100vh !important;
+        max-height: 100dvh !important;
+        border-radius: 0 !important;
+        border: none !important;
+        z-index: 10000;
+    }
+    
+    .sindesa-chat-window.sindesa-chat-window--expanded {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        max-height: 100vh !important;
+    }
+    
+    .sindesa-chat-header {
+        padding: 14px 16px;
+        border-radius: 0 !important;
+    }
+
+    .sindesa-chat-about-panel {
+        top: 68px;
+        padding: 16px;
+    }
+    
+    .sindesa-chat-messages {
+        padding: 14px 12px;
+        gap: 12px;
+    }
+
+    .sindesa-chat-row {
+        max-width: 92%;
+    }
+
+    .sindesa-chat-row--user {
+        max-width: 88%;
+    }
+
+    .sindesa-chat-bubble {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+
+    .sindesa-chat-suggestions {
+        margin-left: 0;
+        justify-content: flex-start;
+    }
+
+    .sindesa-chat-suggestions button {
+        padding: 6px 12px;
+        font-size: 11.5px;
+    }
+
+    .sindesa-chat-footer {
+        padding: 10px 14px;
+        padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    }
+    
+    .sindesa-chat-toggle {
+        width: 52px;
+        height: 52px;
+        font-size: 20px;
+    }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+    .sindesa-chat-window {
+        width: 360px;
+        height: 500px;
+        max-height: calc(100vh - 100px);
+    }
+
+    .sindesa-chat-window.sindesa-chat-window--expanded {
+        width: calc(100vw - 48px);
+        max-width: 560px;
+        height: 580px;
+    }
+}
