@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\Warga\DashboardController as WargaDashboard;
@@ -25,6 +26,7 @@ use App\Http\Controllers\PasswordResetController;
 // ==========================================
 Route::get('/', function () { return view('welcome'); });
 Route::get('/tentang-kami', [AboutController::class, 'index'])->name('tentang-kami');
+Route::post('/chatbot/message', [ChatbotController::class, 'message'])->middleware(['throttle:20,1'])->name('chatbot.message');
 Route::get('/verifikasi/surat/{token}', [PublicController::class, 'verifikasiSurat'])->middleware(['signed', 'throttle:15,1'])->name('verifikasi.surat');
 
 // Route Helper Otomatis untuk Membuat Storage Link di Server Hosting (cPanel / Live Server)

@@ -25,3 +25,13 @@ Thumbs.db
 test-backup.php
 debug_surat.json
 *.sql
+# Chatbot Large Binary Models & Embeddings
+*.safetensors
+*.bin
+*.npy
+*.xlsx
+
+
+# Python Chatbot Service (Separated Repo)
+chatbot/
+

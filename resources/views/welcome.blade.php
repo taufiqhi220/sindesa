@@ -142,6 +142,7 @@
         © 2026 SINDESA Desa Buttu Sawe. All rights reserved.
     </div>
 
+    @include('components.chatbot-widget')
 </body>
 
 </html>
